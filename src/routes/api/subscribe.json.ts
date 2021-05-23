@@ -1,9 +1,12 @@
 import type { ServerRequest, EndpointOutput } from "@sveltejs/kit/types/endpoint"
 import mailchimp from "@mailchimp/mailchimp_marketing/src/index.js"
+import * as m from "@mailchimp/mailchimp_marketing/src/index.js"
+
 import md5 from "md5"
 
 
 function setMember(email_address: string, status_if_new: string, merge_fields = {}) {
+    console.log("mark", mailchimp, m)
     mailchimp.setConfig({
         apiKey: process.env["MAILCHIMP_API_KEY"],
         server: process.env["MAILCHIMP_SERVER_PREFIX"],
