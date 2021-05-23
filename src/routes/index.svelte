@@ -1,0 +1,99 @@
+<script lang="ts">
+    import Button from "$lib/components/Button.svelte"
+    import { clickOutside } from "../lib/scripts/utility"
+    import MailChimp from "$lib/components/MailChimp.svelte"
+    const alt = "outworld album cover"
+
+    const links = [
+        {
+            href: "https://open.spotify.com/artist/6TSLU6RCFiLnRKXCBn0Sbo",
+            src: "/assets/spotify.png",
+            alt: "Spotify"
+        },
+        {
+            href: "https://www.youtube.com/channel/UCb854cgygVAg8MnBxIoYqcA",
+            src: "/assets/youtube.png",
+            alt: "Youtube",
+            clazz: "pt-2"
+        },
+        {
+            href: "https://music.apple.com/us/artist/sly-disciple/958399218",
+            src: "/assets/apple.png",
+            alt: "Apple Music"
+        },
+        {
+            href: "https://www.instagram.com/sly.disciple/",
+            src: "/assets/ig.png",
+            alt: "Instagram"
+        }
+    ]
+    
+    let showSignUp = false
+</script>
+
+<svelte:head>
+    <title>Sly Disciple</title>
+    <meta name="title" property="og:title" content="Sly Disciple">
+    <meta name="description" property="og:description" content="The new album from Sly Disciple, OUTWORLD, is out now.">
+    <link rel="canonical" href="https://slydisciple.com">
+</svelte:head>
+
+<main class="relative h-full">
+    {#if showSignUp}
+        <div on:click={() => showSignUp = false } class="flex z-50 w-full h-full items-center justify-center absolute inset-0" style="background-color: rgba(0,0,0,0.2)">
+            <MailChimp on:submit={() => showSignUp = false}/>
+        </div>
+    {/if}
+    <img
+        class="background-image absolute z-0 overflow-hidden w-full h-full object-cover"
+        src="/assets/cover.jpg"
+        {alt}
+    />
+    <div class="top-0 left-0 z-10 flex flex-col items-center justify-center w-full h-full">
+        <img
+            class="h-96 absolute m-auto max-w-full max-h-full object-contain"
+            src="/assets/cover.jpg"
+            {alt}
+        />
+        <div class="z-20 text-white">
+            <h1 class="tracking-4 text-center uppercase font-bold text-3xl sm:text-5xl">
+                Sly Disciple
+            </h1>
+            <div class="text-center tracking-widest text-xl">
+                <span class="uppercase font-semibold">Outworld</span> The Album
+                <br /> <span class="italic">Now Available</span><br />
+                <Button class="mx-auto font-bold text-lg hover:shadow-lg hover:border-black transiton duration-200 border mt-2 border-white py-1 px-2 rounded" on:click={() => (showSignUp = true)}>Sign up for Updates</Button>
+            </div>
+  
+        </div>
+    </div>
+    <div class="footer h-1/3 justify-evenly absolute bottom-0 left-0 flex w-full sm:h-16">
+        {#each links as { href, src, alt, clazz }}
+            <a class="{clazz ?? ''} text-white" target="_blank" {href}>
+                <img class="hover:opacity-80 duration-300 transition absolute w-12" {src} {alt} />
+            </a>
+        {/each}
+    </div>
+</main>
+
+<style lang="scss">
+    .tracking-4 {
+        letter-spacing: 1rem;
+    }
+
+    main {
+        background-color: #487ab4;
+
+        .background-image {
+            filter: blur(4px);
+            object-position: 50% 38%;
+        }
+
+        .footer {
+            margin-left: -23px;
+            img {
+                min-width: 50px;
+            }
+        }
+    }
+</style>
