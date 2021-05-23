@@ -1,5 +1,5 @@
 import type { ServerRequest, EndpointOutput } from "@sveltejs/kit/types/endpoint"
-import mailchimp from "@mailchimp/mailchimp_marketing"
+import mailchimp from "@mailchimp/mailchimp_marketing/src/index"
 import md5 from "md5"
 
 
