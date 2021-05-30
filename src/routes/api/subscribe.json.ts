@@ -1,26 +1,17 @@
 import type { ServerRequest, EndpointOutput } from "@sveltejs/kit/types/endpoint"
-import mailchimp from "@mailchimp/mailchimp_marketing/src/index.js"
-import * as m from "@mailchimp/mailchimp_marketing/src/index.js"
-
+import Mailchimp from 'mailchimp-api-v3'
 import md5 from "md5"
 
 
-function setMember(email_address: string, status_if_new: string, merge_fields = {}) {
-    console.log("mark", mailchimp, m)
-    mailchimp.setConfig({
-        apiKey: process.env["MAILCHIMP_API_KEY"],
-        server: process.env["MAILCHIMP_SERVER_PREFIX"],
-    })
 
-    return mailchimp.lists.setListMember(
-        process.env["MAILCHIMP_AUDIENCE_ID"],
-        md5(email_address.toLowerCase()),
-        {
-            email_address,
-            status_if_new,
-            merge_fields
-        }
-    )
+function setMember(email_address: string, status_if_new: string, merge_fields = {}) {
+    // @ts-ignore
+    const mailchimp: Mailchimp = new Mailchimp(process.env["MAILCHIMP_API_KEY"], process.env["MAILCHIMP_SERVER_PREFIX"])
+    return mailchimp.put(`/lists/${process.env['MAILCHIMP_AUDIENCE_ID']}/members/${md5(email_address.toLowerCase())}`, {
+        email_address,
+        status_if_new,
+        merge_fields
+    })
 }
 
 export async function post({ body }: ServerRequest<Record<string, any>, { email?: string, phone?: string }>): Promise<EndpointOutput> {
