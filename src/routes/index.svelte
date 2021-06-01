@@ -29,6 +29,10 @@
     ]
     
     let showSignUp = false
+    let container: HTMLDivElement
+    function handleClick(event: Event) {
+        if (event.target === container) showSignUp = false         
+    }
 </script>
 
 <svelte:head>
@@ -40,7 +44,7 @@
 
 <main class="relative h-full">
     {#if showSignUp}
-        <div on:click={() => showSignUp = false } class="flex z-50 w-full h-full items-center justify-center absolute inset-0" style="background-color: rgba(0,0,0,0.2)">
+        <div bind:this={container} on:click={handleClick} class="flex z-50 w-full h-full items-center justify-center absolute inset-0" style="background-color: rgba(0,0,0,0.2)">
             <MailChimp on:submit={() => showSignUp = false}/>
         </div>
     {/if}
@@ -62,9 +66,8 @@
             <div class="text-center tracking-widest text-xl">
                 <span class="uppercase font-semibold">Outworld</span> The Album
                 <br /> <span class="italic">Now Available</span><br />
-                <Button class="mx-auto font-bold text-lg hover:shadow-lg hover:border-black transiton duration-200 border mt-2 border-white py-1 px-2 rounded" on:click={() => (showSignUp = true)}>Sign up for Updates</Button>
+                <Button class="class subscribe-button mx-auto font-bold text-lg transiton duration-200 border mt-2 border-white py-1 px-2 rounded" on:click={() => (showSignUp = true)}>Sign up for Updates</Button>
             </div>
-  
         </div>
     </div>
     <div class="footer h-1/3 justify-evenly absolute bottom-0 left-0 flex w-full sm:h-16">
@@ -76,7 +79,11 @@
     </div>
 </main>
 
-<style lang="scss">
+<style global lang="scss">
+
+    .subscribe-button:hover {
+        box-shadow: inset 0 0 100px #000000;
+    }
     .tracking-4 {
         letter-spacing: 1rem;
     }
